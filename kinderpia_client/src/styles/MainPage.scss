@@ -6,6 +6,20 @@
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  #help-info {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 100;
+    background: #fff;
+    border-radius: 0.5rem;
+    border: 1px solid $main-color;
+    cursor: pointer;
+    .help-info-icon {
+      font-size: 3rem;
+      color: $main-color;
+    }
+  }
 }
 * {
   &::-webkit-scrollbar {
@@ -118,5 +132,16 @@
   .swiper-pagination {
     text-align: left;
     margin-left: 2rem;
+  }
+}
+
+.joyride-content {
+  .joyride-content-title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  font-size: 1.4rem;
+  .accent {
+    color: blue;
   }
 }

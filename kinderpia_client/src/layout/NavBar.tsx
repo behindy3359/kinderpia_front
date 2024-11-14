@@ -31,7 +31,7 @@ export default function NavBar() {
             </Link>
           </li>
           <li className="nav-list">
-            <Link to={'/meeting/create'}>
+            <Link to={'/meeting/create'} className="go-meeting-create">
               <i className="xi-users-plus nav-icon"></i>
               <span>모임 생성</span>
             </Link>

@@ -72,12 +72,12 @@ export default function Header() {
             <strong>MENU</strong>
             {isMenuOpen && (
               <ul className="header-nav">
-                <li className="header-list">
+                <li className="header-list search-meeting">
                   <Link to={'/meeting'} onClick={handleLinkClick}>
                     모임 찾기
                   </Link>
                 </li>
-                <li className="header-list">
+                <li className="header-list search-place">
                   <Link to={'/place'} onClick={handleLinkClick}>
                     장소 찾기
                   </Link>
@@ -90,7 +90,7 @@ export default function Header() {
                   </li>
                 ) : (
                   <>
-                    <li className="header-list">
+                    <li className="header-list go-login">
                       <Link
                         to={'/user/login'}
                         className="login-btn"
@@ -99,7 +99,7 @@ export default function Header() {
                         LOGIN
                       </Link>
                     </li>
-                    <li className="header-list">
+                    <li className="header-list go-register">
                       <Link
                         to={'/user/register'}
                         className="register-btn"

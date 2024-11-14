@@ -4,7 +4,7 @@ import MeetingList from '../components/common/MeetingList';
 import { PlaceListInfo } from '../types/placelist';
 import { MettingListInfo } from '../types/meetinglist';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Link } from 'react-router-dom';
@@ -13,10 +13,78 @@ import { getMeetingListOpen } from '../api/meetinglist';
 import '../styles/MainPage.scss';
 import { MainBanner } from '../components/MainBanner';
 import { formatDetailDate } from '../utils/formatDate';
+import Joyride, { Step } from 'react-joyride';
 
 function MainPage() {
   const [placeList, setPlaceList] = useState<PlaceListInfo[]>([]); // 장소 목록 관리
   const [meetingList, setMeetingList] = useState<MettingListInfo[]>([]); // 모임 목록 관리
+  const [run, setRun] = useState(false); // Joyride 상태 관리
+
+  const steps: Step[] = [
+    {
+      target: '#help-info',
+      placement: 'left',
+      content: (
+        <div className="joyride-content">
+          <p className="joyride-content-title">
+            해당 페이지의 <span className="accent">사용법</span>을 소개합니다.
+          </p>
+          <p>
+            건너뛰시려면 왼쪽 하단의
+            <br />"<span className="accent">Skip</span>"을 눌러주세요!
+          </p>
+        </div>
+      ),
+      disableBeacon: true,
+    },
+    {
+      target: '.nav-icon',
+      placement: 'left',
+      content: (
+        <div className="joyride-content">
+          <p>여기는 메뉴탭입니다.</p>
+          <p>
+            누르시면 모임검색, 장소검색, 회원가입, 로그인, 로그아웃 등을
+            이용할수 있습니다.
+          </p>
+          <p>모임검색 : 다양한 모임을 검색하고 확인할수 있습니다.</p>
+          <p>장소검색 : 아이와 함께 즐길 장소를 검색하고 확인할 수 있습니다.</p>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '.nav-list',
+      placement: 'left',
+      content: (
+        <div className="joyride-content">
+          <p>'여기는 내비게이션 바의 목록입니다.</p>
+          <p>원하는 페이지로 이동하세요.'</p>
+        </div>
+      ),
+      disableBeacon: true,
+    },
+    {
+      target: '.placelist-container', // 인기 장소 섹션
+      content: (
+        <div className="joyride-content">
+          <p>'여기는 인기 장소 목록입니다.</p>
+          <p>더보기를 누르면 더 많은 장소를 둘러볼수있습니다.'</p>
+        </div>
+      ),
+      disableBeacon: true,
+    },
+    {
+      target: '.meetinglist-container', // 신규 모임 섹션
+      content: (
+        <div className="joyride-content">
+          <p>'여기는 신규 모임 목록입니다.</p>
+          <p>더보기를 눌러 다양한 모임들을 확인해보세요 '</p>
+        </div>
+      ),
+      disableBeacon: true,
+    },
+  ];
 
   // GET) 장소목록데이터 가져오기
   const getPlaceList = async () => {
@@ -57,7 +125,38 @@ function MainPage() {
 
   return (
     <section id="main">
-      <MainBanner />
+      <div>
+        <Joyride
+          steps={steps}
+          run={run}
+          continuous={true}
+          showSkipButton={true}
+          styles={{
+            options: {
+              backgroundColor: '#fff', // 배경색
+              primaryColor: '#59a4d6', // 주요 색상
+              textColor: '#333', // 텍스트 색상
+              arrowColor: '#fff', // 화살표 색상
+              width: '300px', // 너비 조정
+            },
+          }}
+          callback={(data) => {
+            const { status } = data;
+            if (status === 'finished' || status === 'skipped') {
+              setRun(false);
+            }
+          }}
+        />
+        <button
+          type="button"
+          id="help-info"
+          title="도움말"
+          onClick={() => setRun(true)} // 버튼 클릭 시 튜토리얼 시작
+        >
+          <i className="xi-info-o help-info-icon"></i>
+        </button>
+        <MainBanner />
+      </div>
       <section className="placelist-container">
         <div className="headline-container">
           <div className="title-container">
